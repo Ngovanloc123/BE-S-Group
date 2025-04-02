@@ -23,7 +23,7 @@ app.listen(PORT, () => {
 
 
 // Khác nhau giữa require và import
-// So sánh giữa WEB server (Ngin, Apache) và Web BE
+// So sánh giữa Web server (Ngin, Apache) và Web BE
 
 // nodemon: phát hiện thay đổi trong code
 // tìm hiểu những gì vừa code và các folder ó trong project 
