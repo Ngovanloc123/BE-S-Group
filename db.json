@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "con chó",
+      "email": "hdsdasduhu@hehe.com",
+      "password": 12
+    },
+    {
+      "id": 2,
+      "name": "haha",
+      "email": "huhu@hehe.com",
+      "password": 12
+    },
+    {
+      "id": 4,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "password": 12345789
+    },
+    {
+      "id": 5,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "password": 12
+    },
+    {
+      "id": 6,
+      "name": "haha",
+      "email": "huhu@hehe.com",
+      "password": 12
+    }
+  ]
+}
