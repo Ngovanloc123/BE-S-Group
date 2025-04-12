@@ -1,0 +1,13 @@
+{{#if errors}}
+  <div class="container mt-3">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <h5 class="alert-heading">Đã xảy ra lỗi!</h5>
+      <ul class="mb-0">
+        {{#each errors}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      <a href="/users" class="btn btn-secondary">Trở về</a>
+    </div>
+  </div>
+{{/if}}

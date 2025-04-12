@@ -1,0 +1,18 @@
+<h2>Chỉnh sửa người dùng</h2>
+<form action="/users" method="POST">
+    <input type="hidden" name="id" value="{{user.id}}">
+    <div class="mb-3">
+        <label for="name">Tên:</label>
+        <input type="text" class="form-control" name="name" value="{{user.name}}" required>
+    </div>
+    <div class="mb-3">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" name="email" value="{{user.email}}" required>
+    </div>
+    <div class="mb-3">
+        <label for="password">Mật khẩu:</label>
+        <input type="password" class="form-control" name="password" value="{{user.password}}" required>
+    </div>
+    <button type="submit" class="btn btn-success">Lưu</button>
+    <a href="/users" class="btn btn-secondary">Trở về</a>
+</form>

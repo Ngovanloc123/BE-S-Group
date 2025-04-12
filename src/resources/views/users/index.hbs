@@ -1,0 +1,30 @@
+<!-- views/users.hbs -->
+<h2 class="">Danh sách người dùng</h2>
+<a href="/users/add" class="btn btn-primary" id="add-user-btn">Thêm người dùng</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Tên người dùng</th>
+            <th scope="col">Email</th>
+            <th scope="col">Mật khẩu</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody id="user-list">
+        {{#each users}}
+            <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.password}}</td>
+                <td>
+                    <button
+                        data-id="{{this.id}}"
+                        class="btn btn-danger delete-btn"
+                    >Xoá</button>
+                    <a href="/users/edit/{{this.id}}" class="btn btn-warning edit-btn" id="add-user-btn">Sửa</a>
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
