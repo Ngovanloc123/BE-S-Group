@@ -1,96 +1,60 @@
 import userModel from "../models/user.model.js";
 
 class UserController {
-    addView(req, res) {
+    // [GET] /users/add
+    add(req, res) {
         res.status(200).render("users/add");
     }
 
-    async getAllUsers(req, res) {
+    // [GET] /users
+    async show(req, res) {
         const users = await userModel.getAllUsers();
         res.status(200).render("users/index", { users });
     }
 
-    async getUserById(req, res) {
+    // [GET] /users/edit/:id
+    async edit(req, res) {
         const user = await userModel.getUserById(req.params.id);
-        if (!user) return res.status(404).render("users/error", {
-            errors: ["Không tìm thấy user"],
-        });
+        if (!user)
+            return res.status(404).render("users/error", {
+                errors: ["Không tìm thấy user"],
+            });
 
-        // res.status(200).json(user);
         res.status(200).render("users/edit", { user });
     }
 
-    async upsertUser(req, res) {
-        const { id } = req.body;
+    // [POST] /users/store
+    async store(req, res) {
+        const newUser = userModel.addUser(req.body);
+        if (!newUser) {
+            return res.status(500).render("users/error", {
+                errors: ["Lỗi server"],
+            });
+        }
+        res.redirect("/users");
+    }
 
-        if (!id) {
-            const newUser = userModel.addUser(req.body);
-            if (!newUser) {
-                return res.status(500).render("users/error", {
-                    errors: ["Lỗi server"],
-                });
-            }
-
-            const users = await userModel.getAllUsers();
-            res.status(201).render("users/index", { users });
-        } else {
-            const updatedUser = userModel.updateUser(req.body);
-            if (!updatedUser) return res.status(500).render("users/error", {
+    // [PUT] /users
+    async update(req, res) {
+        
+        const updatedUser = userModel.updateUser(req.body);
+        if (!updatedUser)
+            return res.status(500).render("users/error", {
                 errors: ["Lỗi server"],
             });
 
-            const users = await userModel.getAllUsers();
-            res.status(200).render("users/index", { users });
-        }
+        res.redirect("/users");
     }
 
-    // updateUserFull(req, res) {
-    //     const { name, email, password } = req.body;
-    //     if (!name || !email || !password) {
-    //         return res
-    //             .status(400)
-    //             .json({ message: "Must have complete user data" });
-    //     }
-
-    //     const updatedUser = userModel.updateUserFull(req.params.id, req.body);
-    //     if (!updatedUser)
-    //         return res
-    //             .status(404)
-    //             .json({ message: "User not found or update failed" });
-
-    //     res.status(200).json({
-    //         message: "User update successful",
-    //         user: updatedUser,
-    //     });
-    // }
-
-    // updateUserPartial(req, res) {
-    //     const updatedUser = userModel.updateUserPartial(
-    //         req.params.id,
-    //         req.body
-    //     );
-    //     if (!updatedUser)
-    //         return res
-    //             .status(404)
-    //             .json({ message: "User not found or update failed" });
-
-    //     res.status(200).json({
-    //         message: "User update successful",
-    //         user: updatedUser,
-    //     });
-    // }
-
-    deleteUser(req, res) {
+    // [DELETE] /users/:id
+    delete(req, res) {
         const success = userModel.deleteUser(req.params.id);
         if (!success)
             return res
                 .status(404)
                 .json({ message: "User not found or delete failed" });
 
-        res.status(200).json({
-            message: "Delete successful",
-            id: req.params.id,
-        });
+        res.redirect('/users');
     }
 }
 

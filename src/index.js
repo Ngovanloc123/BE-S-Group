@@ -4,6 +4,7 @@ import path from "path";
 import dotenv from "dotenv";
 import route from "./routers/index.router.js"
 import { engine } from "express-handlebars";
+import methodOverride from 'method-override';
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -17,6 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(methodOverride('_method'))
 
 app.engine(
   "hbs",
@@ -34,5 +37,5 @@ route(app);
 
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}/users`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
