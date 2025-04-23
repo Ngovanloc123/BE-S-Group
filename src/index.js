@@ -6,6 +6,10 @@ import route from "./routers/index.router.js"
 import { engine } from "express-handlebars";
 import methodOverride from 'method-override';
 
+import db from "./config/db/index.js";
+
+db.connect();
+
 dotenv.config();
 const PORT = process.env.PORT;
 

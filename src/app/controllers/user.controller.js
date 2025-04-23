@@ -1,60 +1,53 @@
-import userModel from "../models/user.model.js";
+import User from "../models/user.model.js";
+import mongooseHelper  from '../../utils/mongoose.js';
 
 class UserController {
     // [GET] /users/add
     add(req, res) {
-        res.status(200).render("users/add");
+        res.render("users/add");
     }
 
     // [GET] /users
-    async show(req, res) {
-        const users = await userModel.getAllUsers();
-        res.status(200).render("users/index", { users });
+    show(req, res, next) {
+        User.find()
+            .then(users => {
+                res.render("users/index", { 
+                    users: mongooseHelper.multipleMongooseToObject(users)
+                 });
+            })
+            .catch(next);
     }
 
     // [GET] /users/edit/:id
-    async edit(req, res) {
-        const user = await userModel.getUserById(req.params.id);
-        if (!user)
-            return res.status(404).render("users/error", {
-                errors: ["Không tìm thấy user"],
-            });
-
-        res.status(200).render("users/edit", { user });
+    edit(req, res, next) {
+        User.findById(req.params.id)
+            .then(user => res.render("users/edit", { 
+                user: mongooseHelper.mongooseToObject(user)
+            }))
+            .catch(next)
     }
 
     // [POST] /users/store
-    async store(req, res) {
-        const newUser = userModel.addUser(req.body);
-        if (!newUser) {
-            return res.status(500).render("users/error", {
-                errors: ["Lỗi server"],
-            });
-        }
-        res.redirect("/users");
+    store(req, res, next) {
+        const newUser = new User(req.body);
+        newUser.save()
+            .then(() => res.redirect("/users"))
+            .catch(next)
+        
     }
 
     // [PUT] /users
-    async update(req, res) {
-        
-        const updatedUser = userModel.updateUser(req.body);
-        if (!updatedUser)
-            return res.status(500).render("users/error", {
-                errors: ["Lỗi server"],
-            });
-
-        res.redirect("/users");
+    update(req, res, next) {
+        User.updateOne({ _id: req.params.id}, req.body)
+            .then(() => res.redirect("/users"))
+            .catch(next)
     }
 
     // [DELETE] /users/:id
-    delete(req, res) {
-        const success = userModel.deleteUser(req.params.id);
-        if (!success)
-            return res
-                .status(404)
-                .json({ message: "User not found or delete failed" });
-
-        res.redirect('/users');
+    delete(req, res, next) {
+        User.deleteOne({ _id: req.params.id })
+            .then(() => res.redirect('/users'))
+            .catch(next)
     }
 }
 

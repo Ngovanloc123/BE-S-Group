@@ -1,9 +1,12 @@
 <h2>Chỉnh sửa người dùng</h2>
-<form action="/users?_method=PUT" method="POST">
-    <input type="hidden" name="id" value="{{user.id}}">
+<form action="/users/{{user._id}}?_method=PUT" method="POST">
     <div class="mb-3">
         <label for="name">Tên:</label>
         <input type="text" class="form-control" name="name" value="{{user.name}}" required>
+    </div>
+    <div class="mb-3">
+        <label for="name">Tuổi:</label>
+        <input type="number" class="form-control" name="age" value="{{user.age}}" required>
     </div>
     <div class="mb-3">
         <label for="email">Email:</label>
