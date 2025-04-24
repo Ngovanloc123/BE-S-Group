@@ -1,37 +1,28 @@
 import User from "../models/user.model.js";
-import mongooseHelper  from '../../utils/mongoose.js';
 
 class UserController {
-    // [GET] /users/add
-    add(req, res) {
-        res.render("users/add");
-    }
 
     // [GET] /users
-    show(req, res, next) {
+    getAll(req, res, next) {
         User.find()
             .then(users => {
-                res.render("users/index", { 
-                    users: mongooseHelper.multipleMongooseToObject(users)
-                 });
+                res.json(users);
             })
             .catch(next);
     }
-
-    // [GET] /users/edit/:id
-    edit(req, res, next) {
-        User.findById(req.params.id)
-            .then(user => res.render("users/edit", { 
-                user: mongooseHelper.mongooseToObject(user)
-            }))
-            .catch(next)
+    // [GET] /users/:id
+    get(req, res, next) {
+        User.findById({ _id: req.params.id })
+            .then(user => res.json(user))
+            .catch(next);
     }
 
-    // [POST] /users/store
-    store(req, res, next) {
+
+    // [POST] /users/create
+    async create(req, res, next) {
         const newUser = new User(req.body);
-        newUser.save()
-            .then(() => res.redirect("/users"))
+        await newUser.save()
+            .then(() => res.json({ message: "User created successfully", newUser }))
             .catch(next)
         
     }
@@ -39,14 +30,14 @@ class UserController {
     // [PUT] /users
     update(req, res, next) {
         User.updateOne({ _id: req.params.id}, req.body)
-            .then(() => res.redirect("/users"))
+            .then(() => res.json({ message: "User update successful", id: req.params.id }))
             .catch(next)
     }
 
     // [DELETE] /users/:id
     delete(req, res, next) {
         User.deleteOne({ _id: req.params.id })
-            .then(() => res.redirect('/users'))
+            .then(() => res.json({ message: "Delete successful", id: req.params.id }))
             .catch(next)
     }
 }

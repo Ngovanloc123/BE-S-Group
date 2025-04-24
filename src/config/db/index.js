@@ -1,8 +1,12 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
+const connectString = process.env.CONNECT_STRING;
 
 async function connect() {
     try {
-        await mongoose.connect('mongodb://localhost:27017/mySGroup');
+        await mongoose.connect(connectString);
         console.log("Kết nối thành công");
         
     }

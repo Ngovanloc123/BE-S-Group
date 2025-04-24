@@ -1,15 +1,14 @@
 import express from "express";
-// import userValidate from "../middlewares/validate.js";
 
 import userController from "../app/controllers/user.controller.js";
 
+
 const router = express.Router();
 
-router.get("/add", userController.add)
-router.post("/store", userController.store);//
-router.get("/edit/:id", userController.edit)
-router.put("/:id", userController.update);//
+router.post("/create", userController.create);
+router.put("/:id", userController.update); //
 router.delete("/:id", userController.delete);
-router.get("/", userController.show);
+router.get("/:id", userController.get); //
+router.get("/", userController.getAll);
 
 export default router;
