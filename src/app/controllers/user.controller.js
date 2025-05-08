@@ -1,10 +1,12 @@
 import User from "../models/user.model.js";
 
+import userService  from "../../services/user.service.js";
+
 class UserController {
 
     // [GET] /users
     getAll(req, res, next) {
-        User.find()
+        userService.getAll()
             .then(users => {
                 res.json(users);
             })
@@ -12,31 +14,40 @@ class UserController {
     }
     // [GET] /users/:id
     get(req, res, next) {
-        User.findById({ _id: req.params.id })
+        userService.getUserById(req.params.id )
             .then(user => res.json(user))
             .catch(next);
     }
 
 
-    // [POST] /users/
-    async create(req, res, next) {
-        const newUser = new User(req.body);
-        await newUser.save()
-            .then(() => res.json({ message: "User created successfully", newUser }))
-            .catch(next)
-        
-    }
+    // [POST] /users/register
+    register(req, res, next) {
+        userService.register(req.body)
+          .then(newUser => {
+            res.json({ message: "Register successfully", newUser });
+          })
+          .catch(next);
+    };
+
+    // [POST] users/login
+    login(req, res, next){
+        userService.login(req.body)
+            .then(user => {
+            res.json({ message: "Login successful", user });
+            })
+            .catch(next);
+    };
 
     // [PUT] /users
     update(req, res, next) {
-        User.updateOne({ _id: req.params.id}, req.body)
+        userService.updateUser(req.params.id, req.body)
             .then(() => res.json({ message: "User update successful", id: req.params.id }))
             .catch(next)
     }
 
     // [DELETE] /users/:id
     delete(req, res, next) {
-        User.deleteOne({ _id: req.params.id })
+        userService.deleteUser(req.params.id)
             .then(() => res.json({ message: "Delete successful", id: req.params.id }))
             .catch(next)
     }

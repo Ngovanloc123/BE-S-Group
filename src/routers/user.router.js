@@ -6,8 +6,9 @@ import validate from "../middlewares/validateUser.js";
 
 const router = express.Router();
 
-router.post("/", validate.validateCreateUser, userController.create); //
+router.post("/register", validate.validateRegisterUser, userController.register); //
 router.put("/:id", validate.validateUpdateUser, userController.update); //
+router.post("/login", userController.login);
 router.delete("/:id", userController.delete);
 router.get("/:id", userController.get);
 router.get("/", userController.getAll);

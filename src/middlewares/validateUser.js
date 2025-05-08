@@ -33,11 +33,11 @@ class Validator {
     const condition = id ? { email, _id: { $ne: id } } : { email };
     const found = await User.findOne(condition);
     if (found) {
-      errors.push("Email đã được sử dụng");
+      errors.push("Email đã được đăng ký");
     }
   }
 
-  validateCreateUser = async (req, res, next) => {
+  validateRegisterUser = async (req, res, next) => {
     const { name, age, email, password } = req.body;
     const errors = [];
 
@@ -73,6 +73,12 @@ class Validator {
 
     next();
   };
+
+  // validateLoginUser = async (req, res, next) => {
+  //   const { email, password } = req.body; 
+
+
+  // }
 }
 
 export default new Validator();
