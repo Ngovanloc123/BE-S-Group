@@ -18,7 +18,7 @@ class UserController {
     }
 
 
-    // [POST] /users/create
+    // [POST] /users/
     async create(req, res, next) {
         const newUser = new User(req.body);
         await newUser.save()
