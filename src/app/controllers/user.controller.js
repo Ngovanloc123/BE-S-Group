@@ -1,4 +1,4 @@
-import User from "../models/user.model.js";
+
 
 import userService  from "../../services/user.service.js";
 
@@ -20,23 +20,7 @@ class UserController {
     }
 
 
-    // [POST] /users/register
-    register(req, res, next) {
-        userService.register(req.body)
-          .then(newUser => {
-            res.json({ message: "Register successfully", newUser });
-          })
-          .catch(next);
-    };
-
-    // [POST] users/login
-    login(req, res, next){
-        userService.login(req.body)
-            .then(user => {
-            res.json({ message: "Login successful", user });
-            })
-            .catch(next);
-    };
+    
 
     // [PUT] /users
     update(req, res, next) {
