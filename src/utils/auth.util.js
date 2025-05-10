@@ -1,22 +1,21 @@
-
+import bcrypt from 'bcrypt';
 
 class AuthUtil {
     hashPassword(password) {
-        const salt = "my_salt";
-        let hash = "";
-
-        for (let i = 0; i < password.length; i++) {
-            hash += password.charCodeAt(i) + salt.charCodeAt(i % salt.length);
-        }
-
-        return `hashed_${hash}`;
+        const salt = bcrypt.genSaltSync();
+        return bcrypt.hashSync(password, salt);
     }
 
-    comparePassword(rawPassword, hashedPassword) {
-        const hashedRaw = this.hashPassword(rawPassword);
-        return hashedRaw === hashedPassword;
+
+    comparePassword(password, hashedPassword) {
+        return bcrypt.compareSync(password, hashedPassword);
     }
+
+    
+
+
 }
+
 
 export default new AuthUtil();
 

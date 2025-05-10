@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import route from "./routers/index.router.js"
 import errorHandler from "./middlewares/errorHandler.js";
+import cookieParser from "cookie-parser";
 
 import db from "./config/db/index.js";
 
@@ -13,6 +14,7 @@ const PORT = process.env.PORT;
 const app = express();
 
 
+app.use(cookieParser());
 app.use(express.json());
 
 route(app);
