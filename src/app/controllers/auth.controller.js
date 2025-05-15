@@ -3,6 +3,8 @@ import jwtUtil from "../../utils/jwt.util.js";
 
 import { OK, CREATED } from "../../handler/success.response.js"
 
+
+
 class AuthController {
     // Đăng ký xong, phải đăng nhập lại
     // [POST] /users/register
@@ -16,8 +18,9 @@ class AuthController {
 
     // [POST] /users/login
     async login(req, res, next) {
-        // Kiểm tra email có tồn tại không, nếu có thì kiểm tra mật khẩu
         const user = await authService.login(req.body);
+
+        // console.log(user);
 
         // Thông tin user tồn tại
         const accessToken = jwtUtil.generateAccessToken(user._id);
@@ -32,6 +35,7 @@ class AuthController {
             message: "Login successfully!",
             metadata: { accessToken: accessToken }
         }).send(res);
+        
     }
 
     // [POST] /users/logout

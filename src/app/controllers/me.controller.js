@@ -1,15 +1,14 @@
 import userService from "../../services/user.service.js"
-
+import { OK, CREATED } from "../../handler/success.response.js"
 class MeController {
     async getProfile(req, res) {
-        try {
-            const user = await userService.getUserById(req.userId)
-          
-            
-            res.status(200).json({ message:"Profile user", user: user })
-        } catch (error) {
-            res.status(500).json({ message: error.message })
-        }
+        const user = await userService.getUserById(req.userId)
+        
+        
+        return new OK ({
+            message: "Profile user",
+            metadata: { user: user }
+        }).send(res);
     }
 }
 
