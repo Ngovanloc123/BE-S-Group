@@ -2,18 +2,22 @@ import jwtUtil from '../utils/jwt.util.js';
 
 class AuthMiddleware {
     requiredAuth = (req, res, next) => {
-        
-        const token = req.cookies.accessToken;
-        if (!token) {
-            return res.status(401).json({ message: "Unauthorized" });
-        }
-
         try {
+            const authHeader = req.headers['authorization'];
+            const token = authHeader && authHeader.split(' ')[1];
+            if(!token) return res.sendStatus(401);
+            // console.log(token);
+            
             const decoded = jwtUtil.verifyToken(token);
             req.userId = decoded.id;
             next();
-        } catch (err) {
-            return res.status(401).json({ message: "Invalid or expired token" });
+        }
+        catch (err) {
+            if(err.name == 'TokenExpiredError'){
+                return res.status(403).json({ msg: "Refresh token expired" });
+            }
+            return res.status(403).json({ msg: "Invalid refresh token" });
+    
         }
     }
 }

@@ -1,5 +1,7 @@
 import User from "../app/models/user.model.js";
 
+import userService  from "../services/user.service.js";
+
 class Validator {
     constructor() {
         this.regexEmail = /^[0-9a-zA-Z._-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
@@ -33,7 +35,7 @@ class Validator {
         const condition = id ? { email, _id: { $ne: id } } : { email };
         const found = await User.findOne(condition);
         if (found) {
-            errors.push("Email đã được đăng ký");
+            errors.push("Email has been registered!");
         }
     }
 

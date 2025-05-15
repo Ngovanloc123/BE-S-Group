@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import route from "./routers/index.router.js"
-import errorHandler from "./middlewares/errorHandler.js";
+import { errorHandler } from './handler/error-handler.js';
 import cookieParser from "cookie-parser";
 
 import db from "./config/db/index.js";
@@ -19,15 +19,14 @@ app.use(express.json());
 
 route(app);
 
-// Middleware 404 - route không tồn tại
-app.use((req, res, next) => {
-  res.status(404).json({
-      success: false,
-      message: "Route not found"
-  });
-});
 
 app.use(errorHandler);
+
+
+// Nếu router không tồn tại
+app.use('*', (req, res) =>{
+  res.status(404).json({error: "Resource not found"});
+});
 
 
 
